@@ -49,7 +49,7 @@ while counter < 4:
         target_user = tag
         tweet_count = 0
         for x in range(5):
-            public_tweets = api.user_timeline(target_user, page = 10)
+            public_tweets = api.user_timeline(target_user)
             for tweet in public_tweets:
                 compound = analyzer.polarity_scores(tweet["text"])["compound"]
                 pos = analyzer.polarity_scores(tweet["text"])["pos"]
@@ -60,7 +60,7 @@ while counter < 4:
                 words = tweet["text"]
                 print(analyzer.polarity_scores(tweet["text"]))
                 sentiments.append({"Date": converted_time,
-                                   "Tweet":words,
+                                   "Tweet": words,
                                    "Compound": compound,
                                    "Positive": pos,
                                    "Negative": neu,
@@ -84,7 +84,7 @@ sentiments_pd.head()
 
 ```python
 #Re-ordering the DataFrame
-sentiments_pd = sentiments_pd[["Outlet","Date", "Tweet", "Compound", "Positive", "Neutral", "Negative", "Tweets Ago"]]
+sentiments_pd = sentiments_pd[["Outlet", "Date", "Tweet", "Compound", "Positive", "Neutral", "Negative", "Tweets Ago"]]
 sentiments_pd.tail()
 ```
 
@@ -148,7 +148,7 @@ bar_prep.head()
 #Bar Chart
 sns.set_style("whitegrid")
 plt.figure(figsize=(20,5))
-plt.title("Average Media Sentiment Today")
+plt.title("Average Media Sentiment 03/30/2018")
 plt.xlabel('News Outlet')
 plt.ylabel('Tweet Polarity')
 my_colors = 'rgbkymc'
@@ -174,7 +174,8 @@ sentiments_pd.to_excel(writer,'Sheet1')
 # Three Trends:
 # 1) CBS usually has higher positive sentiment
 # 2) Fox usually has negative sentiment
-# 3) NYTimes is in the middle
+# 3) NYTimes/BBC is in the middle normally
+
 ```
 
 
