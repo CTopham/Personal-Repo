@@ -57,8 +57,10 @@ while counter < 4:
                 neg = analyzer.polarity_scores(tweet["text"])["neg"]
                 raw_time = tweet["created_at"]
                 converted_time = datetime.strptime(raw_time, "%a %b %d %H:%M:%S %z %Y")
+                words = tweet["text"]
                 print(analyzer.polarity_scores(tweet["text"]))
-                sentiments.append({"Date": converted_time, 
+                sentiments.append({"Date": converted_time,
+                                   "Tweet": words,
                                    "Compound": compound,
                                    "Positive": pos,
                                    "Negative": neu,
@@ -68,6 +70,7 @@ while counter < 4:
                 counter = counter + 1 
                 tweet_count = tweet_count + 1
                 converted_time = []
+                words = []
 
 
 ```
@@ -81,7 +84,7 @@ sentiments_pd.head()
 
 ```python
 #Re-ordering the DataFrame
-sentiments_pd = sentiments_pd[["Outlet","Date", "Compound", "Positive", "Neutral", "Negative", "Tweets Ago"]]
+sentiments_pd = sentiments_pd[["Outlet", "Date", "Tweet", "Compound", "Positive", "Neutral", "Negative", "Tweets Ago"]]
 sentiments_pd.tail()
 ```
 
@@ -95,7 +98,6 @@ sentiments_pd["Outlet"].unique()
 ```python
 #Sorting by date
 sentiments_pd= sentiments_pd.sort_values("Date", ascending=False)
-sentiments_pd.head()
 ```
 
 
@@ -165,6 +167,15 @@ plt.show()
 ```python
 writer = pd.ExcelWriter('output.xlsx',options={'remove_timezone': True})
 sentiments_pd.to_excel(writer,'Sheet1')
+```
+
+
+```python
+# Three Trends:
+# 1) CBS usually has higher positive sentiment
+# 2) Fox usually has negative sentiment
+# 3) NYTimes/BBC is in the middle normally
+
 ```
 
 
